@@ -1,0 +1,18 @@
+Two updates to the existing ATHAR app. Keep all current features and the simulation flow. Do not redesign from scratch.
+
+PART A — Fix layout and bidi issues:
+1. Pod cards: the status badge (OOMKilled / CrashLoopBackOff) overflows outside the card. Put it inside the card header as a normal badge (no absolute/negative positioning). Add overflow-hidden and min-w-0 to cards; truncate long pod names with ellipsis and show full name in title attribute.
+2. Mixed Arabic/English text renders in wrong order. Rule: Arabic for all labels, headings and sentences. Technical values (pod names, versions, metrics, commands, log lines, alert names, timestamps) go inside <bdi dir="ltr"> or a monospace span with dir="ltr" and unicode-bidi: isolate. Fix the alert banner, timeline items and agent steps with this rule.
+3. Remove the small English uppercase subtitles (TIMELINE, INCIDENT ANALYSIS, MEMORY / MiB, PLATFORM OPERATIONS, CLUSTER / NAMESPACE) or replace them with short Arabic text. One language per label.
+4. Wrap the memory chart and log/code blocks in dir="ltr" so time flows left to right. X-axis labels: "-2m", "0", "+2s"... no Arabic word on the axis.
+5. Memory progress bars must fill from the start correctly in RTL.
+6. Timeline order fix: deploy event → memory rising → OOMKilled → alert fired → then agent investigation steps. The alert must appear before any evidence collection.
+7. Consistent spacing: same padding in all cards, equal card heights in rows, nothing touching card edges. Check at 1280px and 768px widths.
+
+PART B — Real AI root cause analysis (only this step):
+- Add a minimal server endpoint POST /api/analyze. Use Replit AI Integrations if available; otherwise read an API key from Replit Secrets. Never expose the key in frontend code.
+- When step "تحليل الأدلة وتحديد السبب الجذري" runs, send the mock evidence (metrics summary, previous logs, events, deploy history) as JSON.
+- System prompt: "You are a Kubernetes incident analyst. Analyze the evidence and reply ONLY with JSON: {root_cause_ar, confidence (0-100), evidence_ar: string[], action: one of [rollback, restart, scale_up_memory, none], action_target, explanation_ar}. Base conclusions only on the given evidence."
+- Validate the response: parse JSON, and if action is not in the allowlist set it to "none". If the call fails or times out (15s), fall back to the current hardcoded result and show a small note "نتيجة احتياطية".
+- Show a small badge "تحليل بالذكاء الاصطناعي" on the root cause card when the real result is used.
+- Keep the approval button and simulated rollback exactly as they are; AI only suggests, never executes.
