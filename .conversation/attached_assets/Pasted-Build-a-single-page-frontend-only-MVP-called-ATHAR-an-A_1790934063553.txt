@@ -1,0 +1,36 @@
+Build a single-page frontend-only MVP called "ATHAR | أثر" — an AI DevOps incident agent demo. Everything is SIMULATED with hardcoded mock data and timers. 
+
+STRICT SCOPE (to save credits):
+- React + Vite + Tailwind + Recharts only. No backend, no database, no auth, no external APIs, no real AI calls.
+- Max ~5 component files. Build it in one pass. Do not add features beyond this spec.
+
+UI: Arabic RTL layout (dir="rtl"), technical terms stay in English (Pod, OOMKilled, Rollback...). Dark theme, clean cards, monospace font for logs.
+
+SCENARIO: Service "orders-api" runs v1 with 3 pods, memory limit 256Mi. A new deploy (v2) has a memory leak.
+
+LAYOUT:
+1) Header: logo "أثر ATHAR", cluster name "prod-cluster", status badge (Healthy green / Incident red / Resolved blue). Buttons: "محاكاة حادثة" and "إعادة ضبط".
+2) Pods panel: 3 pod cards (orders-api-xxxx) showing version, status, restart count, memory usage bar vs 256Mi.
+3) Memory chart (Recharts line): memory per pod over time + red dashed line at 256Mi limit.
+4) Agent panel (right/side): step-by-step investigation timeline.
+
+SIMULATION FLOW (when "محاكاة حادثة" is clicked, use setTimeout/setInterval, ~40 seconds total):
+- t0: Deploy event "orders-api updated v1 → v2 by ahmed" appears. Pods switch to v2.
+- Memory rises steadily in chart until hitting 256Mi.
+- Pods become OOMKilled (exit 137), then CrashLoopBackOff, restart counts increase. Status badge turns red.
+- Alert card appears: "PodRestartingFrequently — orders-api — restarts > 3 in 10m".
+- Agent steps appear one by one with spinner → checkmark:
+  a) جمع Metrics من Prometheus
+  b) جمع Logs (previous container)
+  c) جمع Kubernetes Events
+  d) فحص سجل النشر
+  e) تحليل الأدلة وتحديد السبب الجذري
+- Evidence tabs (Metrics / Logs / Events / Deployments) filled with realistic fake data: log lines ending with "Killed", events like "OOMKilled", "Back-off restarting failed container", deploy history table with revisions 4 (v1) and 5 (v2).
+- Root Cause card: "تسريب ذاكرة في النسخة v2: بدأت حالات OOMKilled بعد 12 دقيقة من النشر، v1 كانت مستقرة عند ~140Mi" + confidence 87% + list of supporting evidence.
+- Suggested action card: "Rollback orders-api إلى revision 4 (v1)" with safety checklist (✓ إجراء ضمن القائمة المسموحة، ✓ namespace: prod فقط، ✓ Dry-run ناجح، ✓ قابل للتراجع) and buttons "موافقة وتنفيذ" / "رفض".
+- On approve: show "kubectl rollout undo deployment/orders-api" executing, pods roll back to v1 one by one, memory drops to ~140Mi, restarts stop.
+- Verification checklist ticks in: كل الـ Pods جاهزة، الإعادات متوقفة، الذاكرة طبيعية، نسبة الأخطاء طبيعية. Badge turns "Resolved".
+- MTTR comparison card: يدوي ~45 دقيقة vs أثر ~4 دقائق.
+- Incident report card: short timeline of all events with timestamps.
+
+"إعادة ضبط" returns everything to the healthy initial state.

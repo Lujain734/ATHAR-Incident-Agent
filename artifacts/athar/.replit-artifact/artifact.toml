@@ -1,0 +1,28 @@
+kind = "web"
+previewPath = "/"
+title = "ATHAR | أثر"
+description = "A frontend-only Arabic RTL demo of an AI DevOps incident agent. Simulates Kubernetes memory-leak detection, evidence gathering, safe rollback approval, and recovery with mock data."
+version = "1.0.0"
+id = "artifacts/athar"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 25849
+
+[services.development]
+run = "pnpm --filter @workspace/athar run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/athar", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/athar/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "25849"
+BASE_PATH = "/"
