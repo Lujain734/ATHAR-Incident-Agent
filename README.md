@@ -1,12 +1,17 @@
 <div align="center">
 
+<picture>
+  <source media="(prefers-color-scheme: dark)" srcset="assets/athar-logo-dark.svg">
+  <img src="assets/athar-logo-light.svg" alt="ATHAR logo" width="140">
+</picture>
+
 # ATHAR · أثر
 
 ### AI Incident Agent for Kubernetes
 
 **From "something is wrong" to "here's why, here's the fix, approve?" in seconds.**
 
-[Live Demo]( https://athar-devops.replit.app )
+[Live Demo](https://replit.com/@lal7ussan/ATHAR-Incident-Agent-Demo)
 
 </div>
 
