@@ -6,7 +6,7 @@
 
 **From "something is wrong" to "here's why, here's the fix, approve?" in seconds.**
 
-[Live Demo]( $$ )
+[Live Demo]( https://athar-devops.replit.app )
 
 </div>
 
