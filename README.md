@@ -1,8 +1,7 @@
 <div align="center">
 
 <picture>
-  <source media="(prefers-color-scheme: dark)" srcset="assets/athar-logo-dark.svg">
-  <img src="assets/athar-logo-light.svg" alt="ATHAR logo" width="140">
+  <img src="athar-logo-dark.svg" alt="ATHAR logo" width="140">
 </picture>
 
 # ATHAR · أثر
@@ -11,7 +10,8 @@
 
 **From "something is wrong" to "here's why, here's the fix, approve?" in seconds.**
 
-[Live Demo](https://replit.com/@lal7ussan/ATHAR-Incident-Agent-Demo)
+[Replit Project](https://replit.com/@lal7ussan/ATHAR-Incident-Agent-Demo)
+[Live Demo](https://athar-devops.replit.app)
 
 </div>
 
@@ -212,7 +212,7 @@ Safety & Human Approval
 |---|---|
 | **Lujain Alhassan** · لجين الحصان | Team Lead |
 | **Muntaha Alnasser** · منتهى الناصر | Software Engineer |
-| **Noura Abu Thnain** · نوره أبو ثنين | AI Expert |
+| **Noura Abu Thnain** · نوره أبو ثنين | AI Developer |
 
 <div align="center">
 
