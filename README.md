@@ -214,7 +214,7 @@ Safety & Human Approval
 
 | Name | Role |
 |---|---|
-| **Lujain Alhassan** · لجين الحصان | Team Lead |
+| **Lujain Alhusan** · لجين الحصان | Team Lead |
 | **Muntaha Alnasser** · منتهى الناصر | Software Engineer |
 | **Noura Abu Thnain** · نوره أبو ثنين | AI Developer |
 
